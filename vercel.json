@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "name": "play-list-video-downloader",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/website/index.html" },
+    { "source": "/style.css", "destination": "/website/style.css" },
+    { "source": "/app.js", "destination": "/website/app.js" },
+    { "source": "/assets/(.*)", "destination": "/website/assets/$1" },
+    { "source": "/website/(.*)", "destination": "/website/$1" }
+  ]
+}
