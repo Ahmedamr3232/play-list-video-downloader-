@@ -45,7 +45,11 @@ for /f "tokens=*" %%i in ('python --version') do echo [OK] %%i detected.
 echo.
 echo [2/4] Installing required libraries (yt-dlp, Flask, Flask-CORS)...
 python -m pip install --upgrade pip --quiet
-python -m pip install -r requirements.txt --quiet
+if exist "%~dp0server\requirements.txt" (
+    python -m pip install -r "%~dp0server\requirements.txt" --quiet
+) else (
+    python -m pip install yt-dlp flask flask-cors --quiet
+)
 if %errorlevel% neq 0 (
     echo [!] Standard install had a warning, trying direct install...
     python -m pip install yt-dlp flask flask-cors

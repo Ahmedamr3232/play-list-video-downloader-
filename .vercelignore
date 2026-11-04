@@ -1,0 +1,4 @@
+# Ignore backend and desktop files during Vercel cloud deployment
+server/
+extension/
+*.bat
