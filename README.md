@@ -76,8 +76,8 @@ If you prefer using the command line:
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/your-username/yt-dlp-downloader.git
-cd yt-dlp-downloader
+git clone https://github.com/Ahmedamr3232/play-list-video-downloader-.git
+cd play-list-video-downloader-
 
 # 2. Install dependencies
 pip install -r requirements.txt
