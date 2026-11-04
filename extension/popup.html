@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YT-DLP Playlist Downloader</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-brand">
+        <div class="header-icon">
+          <img src="icons/icon48.png" alt="logo" width="24" height="24">
+        </div>
+        <div class="header-titles">
+          <h1>YT-DLP Downloader</h1>
+          <span class="header-subtitle">Fast Playlist & Video Grabber</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="nav-tabs">
+          <button id="tabDownloaderBtn" class="tab-btn active" title="Downloader">📥 Download</button>
+          <button id="tabHistoryBtn" class="tab-btn" title="Download History">📜 History</button>
+        </div>
+        <div id="serverStatus" class="status-dot offline" title="Server offline - Start server first"></div>
+      </div>
+    </header>
+
+    <!-- TAB 1: DOWNLOADER -->
+    <main id="tabDownloader" class="tab-content active">
+      <!-- URL Input Section -->
+      <section class="card input-section">
+        <div class="input-wrapper">
+          <input type="text" id="urlInput" placeholder="Paste YouTube playlist or video URL..." autocomplete="off">
+          <button id="fetchBtn" class="btn-primary" title="Fetch Playlist">
+            <span class="btn-text">Fetch</span>
+            <span class="btn-loading" style="display:none;">⏳</span>
+          </button>
+        </div>
+        <div class="input-actions">
+          <button id="pasteCurrentBtn" class="btn-link">📋 Paste current tab URL</button>
+          <button id="toggleAdvancedBtn" class="btn-link">⚙️ Options & Folders</button>
+        </div>
+
+        <!-- Smart One-Click Download for current video -->
+        <div id="quickWatchBanner" class="quick-watch-banner" style="display:none;">
+          <div class="watch-meta">
+            <span class="watch-badge">DETECTED</span>
+            <span id="quickWatchTitle" class="watch-title">Current YouTube Video</span>
+          </div>
+          <div class="watch-btns">
+            <button id="quickDlVideoBtn" class="btn-chip btn-quick-video">⬇️ Fast Video</button>
+            <button id="quickDlAudioBtn" class="btn-chip btn-quick-audio">🎵 Fast MP3</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Advanced Options Panel (Collapsible) -->
+      <section id="advancedSection" class="card advanced-section" style="display:none;">
+        <div class="grid-options">
+          <div class="option-field" id="videoQualityField">
+            <label for="qualitySelect">Video Quality</label>
+            <select id="qualitySelect">
+              <option value="best">🎬 Best Video (Max)</option>
+              <option value="1080">📺 1080p Full HD</option>
+              <option value="720" selected>⚡ 720p HD</option>
+              <option value="480">📱 480p SD</option>
+              <option value="360">💾 360p Compact</option>
+            </select>
+          </div>
+
+          <div class="option-field" id="audioQualityField" style="display:none;">
+            <label for="audioQualitySelect">Audio Bitrate</label>
+            <select id="audioQualitySelect">
+              <option value="0" selected>🎵 320 kbps (Best Quality)</option>
+              <option value="2">🎵 256 kbps (High)</option>
+              <option value="4">🎵 192 kbps (Standard)</option>
+              <option value="6">🎵 128 kbps (Smaller)</option>
+            </select>
+          </div>
+
+          <div class="option-field">
+            <label for="formatSelect">Format</label>
+            <select id="formatSelect">
+              <option value="mp4" selected>🎥 MP4 (Video)</option>
+              <option value="mp3">🎵 MP3 (Audio Only)</option>
+              <option value="webm">🌐 WebM (Video)</option>
+            </select>
+          </div>
+
+          <div class="option-field">
+            <label for="speedLimitSelect">Speed Limit</label>
+            <select id="speedLimitSelect">
+              <option value="" selected>🚀 Unlimited Speed</option>
+              <option value="10M">10 MB/s</option>
+              <option value="5M">5 MB/s</option>
+              <option value="2M">2 MB/s</option>
+              <option value="1M">1 MB/s</option>
+              <option value="500K">500 KB/s</option>
+            </select>
+          </div>
+
+          <div class="option-field">
+            <label for="subtitlesCheck" class="checkbox-label">
+              <input type="checkbox" id="subtitlesCheck">
+              <span>Embed Subtitles</span>
+            </label>
+            <select id="subtitleLangSelect" disabled>
+              <option value="ar">Arabic (ar)</option>
+              <option value="en" selected>English (en)</option>
+              <option value="all">All Languages</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Custom Download Path -->
+        <div class="folder-picker-row">
+          <label>Download Location:</label>
+          <div class="folder-input-group">
+            <input type="text" id="downloadPathInput" placeholder="Default folder (~/Downloads/YT-DLP Downloads)">
+            <button id="browseFolderBtn" class="btn-secondary" title="Choose Folder">📂 Browse</button>
+            <button id="openFolderDirectBtn" class="btn-icon" title="Open Folder in File Explorer">↗️</button>
+          </div>
+          <div class="quick-presets-row">
+            <span class="presets-label">Quick:</span>
+            <button type="button" class="preset-chip" data-path="D:\">💾 D:\ Drive</button>
+            <button type="button" class="preset-chip" data-path="default">📂 Downloads</button>
+            <button type="button" class="preset-chip" data-path="music">🎵 Music</button>
+            <button type="button" class="preset-chip" data-path="desktop">🖥️ Desktop</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Alert / Error Banner -->
+      <div id="errorMsg" class="alert error" style="display:none;"></div>
+      <div id="infoMsg" class="alert info" style="display:none;"></div>
+
+      <!-- Playlist Selection Section -->
+      <section id="playlistSection" class="playlist-section" style="display:none;">
+        <!-- Playlist Meta Header -->
+        <div class="playlist-meta-bar">
+          <div class="meta-details">
+            <h2 id="playlistTitle" title="Playlist Title">Playlist Title</h2>
+            <div class="meta-sub">
+              <span id="videoCount">0 videos</span>
+              <span class="dot-sep">•</span>
+              <span id="playlistDuration">00:00</span>
+              <span id="playlistUploader" class="meta-uploader"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Destination Folder Quick Bar -->
+        <div class="quick-folder-bar">
+          <span class="folder-label">📂 Save To:</span>
+          <span id="quickFolderDisplay" class="quick-folder-text" title="Current save folder">~/Downloads/YT-DLP Downloads</span>
+          <button id="quickBrowseFolderBtn" class="btn-chip" title="Choose folder via File Explorer">📂 Browse</button>
+          <button id="quickOpenFolderBtn" class="btn-chip" title="Open folder in File Explorer">↗️ Open</button>
+        </div>
+        <div class="quick-presets-row mini-presets">
+          <span class="presets-label">Presets:</span>
+          <button type="button" class="preset-chip" data-path="D:\">💾 D:\ Drive</button>
+          <button type="button" class="preset-chip" data-path="default">📂 Downloads</button>
+          <button type="button" class="preset-chip" data-path="music">🎵 Music</button>
+          <button type="button" class="preset-chip" data-path="desktop">🖥️ Desktop</button>
+        </div>
+
+        <!-- Toolbar: Search, Filter & Quick Selection -->
+        <div class="playlist-toolbar">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchVideoInput" placeholder="Filter videos by title...">
+            <button id="clearSearchBtn" class="btn-clear" style="display:none;">✕</button>
+          </div>
+
+          <div class="sort-box">
+            <label for="sortSelect">Sort:</label>
+            <select id="sortSelect">
+              <option value="default">Original</option>
+              <option value="title">Title (A-Z)</option>
+              <option value="duration_desc">Longest First</option>
+              <option value="duration_asc">Shortest First</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Quick Selection Controls -->
+        <div class="selection-actions-bar">
+          <div class="btn-group">
+            <button id="selectAllBtn" class="btn-chip" title="Select all videos">☑️ All</button>
+            <button id="deselectAllBtn" class="btn-chip" title="Deselect all">☐ None</button>
+            <button id="invertSelectionBtn" class="btn-chip" title="Invert selection">🔄 Invert</button>
+            <button id="scanFolderBtn" class="btn-chip btn-scan-folder" title="Scan destination folder and automatically select only missing/undownloaded videos">📁 Select Missing</button>
+          </div>
+
+          <div class="range-selector">
+            <span>Range:</span>
+            <input type="number" id="rangeStart" min="1" placeholder="1" class="range-input">
+            <span>to</span>
+            <input type="number" id="rangeEnd" min="1" placeholder="10" class="range-input">
+            <button id="applyRangeBtn" class="btn-chip range-btn">Apply</button>
+          </div>
+        </div>
+
+        <!-- Videos Scrollable List -->
+        <div id="videoList" class="video-list"></div>
+
+        <!-- Sticky Bottom Download Bar -->
+        <div class="download-bar">
+          <div class="selected-summary">
+            <strong id="selectedCount">0</strong> of <span id="totalVisibleCount">0</span> selected
+          </div>
+          <div class="download-buttons">
+            <button id="downloadBtn" class="btn-download" disabled>
+              ⬇️ Download Selected
+            </button>
+            <button id="downloadAllBtn" class="btn-download-all">
+              📥 Download All
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Download Progress Section -->
+      <section id="progressSection" class="progress-section" style="display:none;">
+        <div class="progress-header">
+          <div class="progress-header-title">
+            <h2 id="progressStatusText">📥 Downloading Videos...</h2>
+            <span id="sessionPlaylistTitle" class="session-playlist-sub"></span>
+          </div>
+          <button id="cancelBtn" class="btn-danger" title="Cancel current download">✖ Cancel</button>
+        </div>
+
+        <!-- Overall Progress Box -->
+        <div class="overall-progress-card">
+          <div class="progress-stats">
+            <span id="overallStats">0 / 0 completed</span>
+            <strong id="overallPercent">0%</strong>
+          </div>
+          <div class="progress-bar-track">
+            <div id="overallProgressBar" class="progress-bar-fill main" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Currently Active Video Card -->
+        <div id="currentVideoCard" class="current-video-card">
+          <div class="current-tag">Now Downloading (<span id="currentVideoIndex">1</span>/<span id="totalVideosCount">1</span>)</div>
+          <div id="currentVideoTitle" class="current-title">-</div>
+          <div class="live-stats-row">
+            <span id="currentSpeed" class="stat-badge">⚡ -</span>
+            <span id="currentETA" class="stat-badge">⏱️ ETA: -</span>
+            <span id="currentSize" class="stat-badge">📦 -</span>
+          </div>
+          <div class="progress-bar-track mini">
+            <div id="currentProgressBar" class="progress-bar-fill current" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Scrollable Active Items Progress List -->
+        <div class="items-status-header">Video Queue:</div>
+        <div id="downloadQueueList" class="download-queue-list"></div>
+
+        <!-- Completion Modal / Card -->
+        <div id="completionCard" class="completion-card" style="display:none;">
+          <div id="completionIcon" class="completion-icon">🎉</div>
+          <h3 id="completionTitle">Download Finished!</h3>
+          <p id="completionDetails">All videos downloaded successfully.</p>
+          <div class="completion-actions">
+            <button id="openFolderBtn" class="btn-success">📁 Open Folder</button>
+            <button id="retryFailedBtn" class="btn-warning" style="display:none;">🔄 Retry Failed</button>
+            <button id="newDownloadBtn" class="btn-secondary">➕ New Download</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- TAB 2: HISTORY -->
+    <main id="tabHistory" class="tab-content" style="display:none;">
+      <div class="history-header">
+        <h2>Past Downloads</h2>
+        <button id="clearHistoryBtn" class="btn-link-danger">Clear History</button>
+      </div>
+      <div id="historyList" class="history-list">
+        <div class="empty-state">No downloads recorded yet.</div>
+      </div>
+    </main>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

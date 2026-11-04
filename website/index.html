@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YT-DLP Downloader - Fast YouTube Playlist & Video Grabber</title>
+  <meta name="description" content="A powerful Chrome extension paired with yt-dlp. Single-click audio extraction, 4K video quality, live speed indicators, and smart playlist sync.">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Glow FX -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand">
+        <img src="assets/logo.png" alt="YT-DLP Downloader Logo" class="brand-logo">
+        <span class="brand-name">YT-DLP <span class="gradient-text">Downloader</span></span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#setup">Setup Guide</a>
+        <a href="#preview">Preview</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://github.com" target="_blank" class="btn btn-secondary btn-sm" id="githubRepoLink">
+          <svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+        <a href="#setup" class="btn btn-primary btn-sm">
+          <span>Get Started</span>
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-container">
+      
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>Version 2.1 • 1-Click Automated Setup for Windows</span>
+      </div>
+
+      <h1 class="hero-title">
+        Download YouTube Playlists & Videos <br>
+        <span class="gradient-text">At Maximum Speed</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        A lightweight Google Chrome extension connected directly to your local yt-dlp engine. 
+        Download 100+ videos at once, extract 320kbps MP3 audio, monitor real-time speeds, and never download duplicates again.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="https://github.com" target="_blank" class="btn btn-primary btn-lg" id="downloadZipBtn">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+          <span>Download Free (.ZIP)</span>
+        </a>
+
+        <a href="#setup" class="btn btn-glass btn-lg">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd"/>
+          </svg>
+          <span>3-Step Quick Setup</span>
+        </a>
+      </div>
+
+      <!-- Quick Command Bar -->
+      <div class="quick-cmd-box">
+        <div class="quick-cmd-label">Quick Clone:</div>
+        <code id="cloneCmd">git clone https://github.com/username/yt-dlp-downloader.git</code>
+        <button class="copy-btn" onclick="copyText('cloneCmd', this)" title="Copy Command">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          <span>Copy</span>
+        </button>
+      </div>
+
+      <!-- Interactive Mockup Card -->
+      <div class="mockup-wrapper" id="preview">
+        <div class="mockup-frame">
+          <div class="mockup-header">
+            <div class="frame-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div class="frame-title">YT-DLP Downloader Chrome Popup</div>
+            <div class="frame-status">
+              <span class="server-status-dot"></span>
+              <span>Server: Connected (Port 5000)</span>
+            </div>
+          </div>
+
+          <div class="mockup-content">
+            <!-- Simulated Extension Popup -->
+            <div class="extension-sim">
+              <!-- Top bar -->
+              <div class="sim-top">
+                <div class="sim-logo-group">
+                  <div class="sim-icon-box">⬇️</div>
+                  <div>
+                    <div class="sim-brand">YT-DLP Downloader</div>
+                    <div class="sim-tagline">Fast Playlist & Video Grabber</div>
+                  </div>
+                </div>
+                <div class="sim-tabs">
+                  <button class="sim-tab active" id="simTabVideo" onclick="switchSimMode('video')">Video (MP4)</button>
+                  <button class="sim-tab" id="simTabAudio" onclick="switchSimMode('audio')">Audio (MP3)</button>
+                </div>
+              </div>
+
+              <!-- URL Input Box -->
+              <div class="sim-input-row">
+                <div class="sim-input">
+                  <span class="sim-input-icon">🔗</span>
+                  <span class="sim-input-text" id="simUrlText">https://www.youtube.com/playlist?list=PL-Top...</span>
+                </div>
+                <button class="sim-fetch-btn">Fetch (17)</button>
+              </div>
+
+              <!-- Options strip -->
+              <div class="sim-options-bar">
+                <span class="sim-chip">📁 D:\YT-DLP Downloads</span>
+                <span class="sim-chip" id="simFormatChip">🎬 1080p FHD</span>
+                <span class="sim-chip">⚡ Turbo Threads</span>
+              </div>
+
+              <!-- Active progress card -->
+              <div class="sim-active-card">
+                <div class="sim-active-header">
+                  <div class="sim-active-title" id="simActiveTitle">
+                    Downloading: The 5 Most Important Minutes If You're Behind...
+                  </div>
+                  <div class="sim-active-badge">1 / 17 (76%)</div>
+                </div>
+
+                <div class="sim-progress-track">
+                  <div class="sim-progress-fill" id="simProgressFill" style="width: 76%;"></div>
+                </div>
+
+                <div class="sim-stats-row">
+                  <span class="sim-stat">⚡ <strong>14.2 MiB/s</strong></span>
+                  <span class="sim-stat">⏱️ ETA: <strong>00:18</strong></span>
+                  <span class="sim-stat">📦 <strong>128.4 MiB</strong></span>
+                </div>
+              </div>
+
+              <!-- Item Queue -->
+              <div class="sim-queue">
+                <div class="sim-queue-item active">
+                  <span class="q-icon">⬇️ 76%</span>
+                  <span class="q-title">The 5 Most Important Minutes If You're Behind in High School</span>
+                </div>
+                <div class="sim-queue-item">
+                  <span class="q-icon">⏳</span>
+                  <span class="q-title">إزاي واجهت كلام الناس ووصلت لأوائل الثانوية العامة؟</span>
+                </div>
+                <div class="sim-queue-item">
+                  <span class="q-icon">⏳</span>
+                  <span class="q-title">إنت بتطور نفسك ولا بتضحك عليها؟ حقيقة الفيديوهات التحفيزية</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="section-badge">Packed with Superpowers</div>
+      <h2 class="section-title">Everything you need to master YouTube downloads</h2>
+      <p class="section-subtitle">
+        Built from the ground up for speed, reliability, and zero-headache setup for friends.
+      </p>
+
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="feature-card">
+          <div class="feature-icon bg-indigo">⚡</div>
+          <h3>Full Playlists & Channels</h3>
+          <p>
+            Paste any playlist, mix, or entire channel URL. Fetches 100+ videos in seconds with thumbnails, durations, and titles.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card">
+          <div class="feature-icon bg-pink">🎵</div>
+          <h3>1-Click 320kbps MP3 Audio</h3>
+          <p>
+            Extract pristine audio effortlessly. Choose your bitrate (320k, 256k, 192k) with automatic FFmpeg tag and thumbnail embedding.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card">
+          <div class="feature-icon bg-cyan">📁</div>
+          <h3>Native Folder Browser</h3>
+          <p>
+            Select any download folder with the native Windows Explorer dialog. Quick presets for <code>D:\</code> drive, Downloads, and Music.
+          </p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card">
+          <div class="feature-icon bg-emerald">📊</div>
+          <h3>Real-Time Speed & ETA</h3>
+          <p>
+            Watch live download speeds in MiB/s, remaining time countdown, and exact file size streamed directly to your extension popup.
+          </p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="feature-card">
+          <div class="feature-icon bg-amber">🔄</div>
+          <h3>Smart Resume & Sync</h3>
+          <p>
+            Scans your destination folder and automatically skips already downloaded videos. 1-click "Download Missing" button for partial runs.
+          </p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="feature-card">
+          <div class="feature-icon bg-purple">🛠️</div>
+          <h3>1-Click Zero Friction Setup</h3>
+          <p>
+            Your friends don't need command line skills. Just run <code>setup.bat</code>: it configures Python, yt-dlp, FFmpeg, and creates a desktop shortcut.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3-Step Setup Guide -->
+  <section class="setup-section" id="setup">
+    <div class="container">
+      <div class="section-badge">Zero Friction Setup</div>
+      <h2 class="section-title">Ready in less than 60 seconds</h2>
+      <p class="section-subtitle">
+        Send this link to any friend — they can set it up in 3 simple steps without touching the command line.
+      </p>
+
+      <div class="setup-steps">
+        <!-- Step 1 -->
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h3>Download & Extract the Tool</h3>
+            <p>
+              Download the project ZIP from GitHub and extract it anywhere on your computer (e.g. your Downloads or Desktop folder).
+            </p>
+            <div class="step-action">
+              <a href="https://github.com" target="_blank" class="btn btn-primary btn-sm" id="stepDownloadBtn">
+                Download Latest ZIP
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h3>Double-Click <code>setup.bat</code></h3>
+            <p>
+              Double-click <strong><code>setup.bat</code></strong>. It automatically checks Python, installs yt-dlp, configures FFmpeg, and creates a shortcut on your Desktop!
+            </p>
+            <div class="step-code">
+              <code>setup.bat</code>
+              <span class="code-comment">← Automated 1-click installer</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h3>Load Extension into Chrome / Edge</h3>
+            <p>
+              1. Open Chrome and go to <code>chrome://extensions</code><br>
+              2. Toggle ON <strong>Developer mode</strong> (top-right corner)<br>
+              3. Click <strong>Load unpacked</strong> and select the <code>extension</code> folder.
+            </p>
+            <div class="step-code">
+              <code>chrome://extensions &rarr; Load unpacked</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ready banner -->
+      <div class="ready-banner">
+        <div class="ready-text">
+          <h3>That's it! You're ready to download.</h3>
+          <p>Double-click the <strong>Start YT-DLP Server</strong> icon on your Desktop anytime you want to use the extension.</p>
+        </div>
+        <div class="ready-cta">
+          <a href="#preview" class="btn btn-primary">See Live Preview</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-badge">Got Questions?</div>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Do my friends need to know Python or programming?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Not at all! Running <code>setup.bat</code> does everything automatically: installs the required packages, configures yt-dlp, and creates a clean 1-click desktop shortcut.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Can I extract MP3 audio only?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Yes! Switch the format to <strong>Audio (MP3)</strong> in the popup. You can choose 320kbps (pristine quality), 256kbps, or 192kbps. The tool uses FFmpeg to extract high-fidelity audio directly.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What happens if some videos in a playlist fail or were already downloaded?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              The tool automatically detects videos already saved in your chosen folder and skips them instantly. If any videos fail due to connection issues, simply click the <strong>Retry Failed</strong> or <strong>Download Missing</strong> button to fetch only what's missing!
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Can I download 1080p, 1440p, or 4K videos?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Yes! The <strong>Best Available</strong> quality setting automatically grabs the maximum resolution offered by YouTube, including 1080p 60fps and 4K, merging the highest-quality video and audio streams seamlessly.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Does it work on Microsoft Edge or Brave?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Yes! Any Chromium-based browser (Google Chrome, Microsoft Edge, Brave, Opera, Vivaldi) supports loading unpacked Manifest V3 extensions without modification.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <img src="assets/logo.png" alt="Logo" width="28" height="28">
+        <span>YT-DLP Downloader</span>
+      </div>
+      <div class="footer-links">
+        <a href="#features">Features</a>
+        <a href="#setup">Setup</a>
+        <a href="#preview">Preview</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://github.com" target="_blank" id="footerGithubLink">GitHub</a>
+      </div>
+      <div class="footer-copy">
+        MIT Licensed • Free and Open Source for Everyone
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
